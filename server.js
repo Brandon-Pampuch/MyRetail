@@ -1,6 +1,7 @@
 const Product = require('./models/product')
 const express = require("express");
 const mongoose = require("mongoose")
+const axios = require("axios")
 const bodyParser = require('body-parser')
 const server = express();
 
@@ -12,7 +13,7 @@ server.get("/", (req, res) => {
 })
 // post a new product
 server.post("/products", (req, res) => {
-    console.log(req.body.value)
+
     const product = new Product({
         _id: req.body.id,
         current_price: {
@@ -32,15 +33,30 @@ server.post("/products", (req, res) => {
 // retrieve product by id
 server.get("/products/:id", (req, res) => {
     const id = req.params.id
+    axios.get(`https://redsky.target.com/v2/pdp/tcin/${id}?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics`)
+        .then(response => {
+            const title = response.data.product.item.product_description.title;
+            Product.findById(id).then(product => {
+                res.status(200).json({
+                    id: parseInt(product._id),
+                    name: title,
+                    current_price: product.current_price
 
-    Product.findById(id).then(product => {
-        console.log(product)
-        res.status(200).json(product)
-    })
-        .catch(err => {
-            console.log(err)
-            res.status(500).json({ error: err })
+                })
+            })
+                .catch(err => {
+                    console.log(err)
+                    res.status(500).json({ error: err })
+                })
         })
+        .catch(error => {
+            console.log(error);
+        });
+
+})
+
+server.put("/products", (req, res) => {
+
 })
 
 module.exports = server
