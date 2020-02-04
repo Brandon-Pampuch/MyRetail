@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGO_URI = require("../config")
 
 const connectDB = () => {
-    return mongoose.connect(MONGODB_URI, {
+    return mongoose.connect(MONGO_URI, {
         useUnifiedTopology: true,
         useNewUrlParser: true,
         useFindAndModify: false,
