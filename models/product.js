@@ -2,10 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ProductSchema = new Schema({
-    _id: String,
+    _id: { type: String, required: true },
     current_price: {
-        value: { type: Number },
-        currency_code: { type: String }
+        value: { type: Number, required: true },
+        currency_code: { type: String, required: true }
     }
 })
 
