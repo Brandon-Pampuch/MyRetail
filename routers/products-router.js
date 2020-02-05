@@ -65,4 +65,6 @@ router.put("/:id", async (req, res) => {
     }
 })
 
+//Delete   /products/:id
+
 module.exports = router
