@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
         })
     } catch (err) {
         res.status(500).json({
-            message: "internal server error"
+            error: "internal server error"
         })
     }
 })
@@ -40,7 +40,7 @@ router.get("/:id", async (req, res) => {
         })
     } catch (err) {
         res.status(404).json({
-            message: "product not found"
+            error: "product not found"
         })
     }
 })
@@ -60,7 +60,7 @@ router.put("/:id", async (req, res) => {
         })
     } catch (err) {
         res.status(404).json({
-            message: "no product found"
+            error: "no product found"
         })
     }
 })

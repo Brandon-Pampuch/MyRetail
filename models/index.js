@@ -20,10 +20,15 @@ const connectDB = async () => {
     }
 };
 
+const disconnectDB = () => {
+    return mongoose.connection.close()
+}
+
+
 mongoose.connection.once('open', () => {
     console.log('connected to database');
 })
 
 module.exports = {
-    connectDB: connectDB,
+    connectDB, disconnectDB
 }
