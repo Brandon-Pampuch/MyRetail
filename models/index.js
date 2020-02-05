@@ -1,17 +1,28 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+const MongoMemoryServer = require('mongodb-memory-server').MongoMemoryServer
 const MONGO_URI = require("../config")
 
-const connectDB = () => {
-    return mongoose.connect(MONGO_URI, {
-        useUnifiedTopology: true,
-        useNewUrlParser: true,
-        useFindAndModify: false,
-    });
+const connectDB = async () => {
+    if (process.env.NODE_ENV = 'test') {
+        const mongoServer = new MongoMemoryServer();
+        const mongoUri = await mongoServer.getUri();
+        return mongoose.connect(mongoUri, {
+            useUnifiedTopology: true,
+            useNewUrlParser: true,
+            useFindAndModify: false,
+        })
+    } else {
+        return mongoose.connect(MONGO_URI, {
+            useUnifiedTopology: true,
+            useNewUrlParser: true,
+            useFindAndModify: false,
+        })
+    }
 };
 
 mongoose.connection.once('open', () => {
     console.log('connected to database');
-});
+})
 
 module.exports = {
     connectDB: connectDB,
