@@ -35,16 +35,22 @@ describe('GET /products', () => {
             })
             .catch((err) => done(err))
     })
+
+    it('FAIL, getting product does not work with wrong', (done) => {
+        request(server.use(router)).post('/')
+            .send({
+                id: "87654321",
+                currency_code: "USD",
+                value: 1.99
+            })
+            .then((res) => {
+                request(server.use(router)).get('/1')
+                const body = res.body
+                expect(body).to.contain.property('error')
+                done()
+            })
+            .catch((err) => done(err))
+
+    })
 })
 
-// it('OK, getting product by id works', (done) => {
-
-//     request(server.use(router)).get('/:id')
-//         .then((res) => {
-//             const body = res.body
-//             console.log('product', body)
-//             // expect(body).to.contain.property('createdProduct')
-//             done()
-//         })
-//         .catch((err) => done(err))
-// })
