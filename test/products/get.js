@@ -7,7 +7,7 @@ const router = require('../../routers/products-router.js')
 const server = require('../../server')
 const DB = require('../../models')
 
-describe('Get /products', () => {
+describe('GET /products', () => {
     before((done) => {
         DB.connectDB()
             .then(() => done())
@@ -19,7 +19,8 @@ describe('Get /products', () => {
             .catch((err) => done(err))
 
     })
-    it('OK, creating product works', (done) => {
+
+    it('OK, getting product by id works', (done) => {
         request(server.use(router)).post('/')
             .send({
                 id: "87654321",
@@ -27,25 +28,23 @@ describe('Get /products', () => {
                 value: 1.99
             })
             .then((res) => {
+                request(server.use(router)).get('/87654321')
                 const body = res.body
-                console.log('product', body)
                 expect(body).to.contain.property('createdProduct')
                 done()
             })
             .catch((err) => done(err))
     })
-
-    it('Fail, creating product requires id', (done) => {
-        request(server.use(router)).post('/')
-            .send({
-                currency_code: "USD",
-                value: 1.99
-            })
-            .then((res) => {
-                const body = res.body
-                expect(body).to.contain.property('error')
-                done()
-            })
-            .catch((err) => done(err))
-    })
 })
+
+// it('OK, getting product by id works', (done) => {
+
+//     request(server.use(router)).get('/:id')
+//         .then((res) => {
+//             const body = res.body
+//             console.log('product', body)
+//             // expect(body).to.contain.property('createdProduct')
+//             done()
+//         })
+//         .catch((err) => done(err))
+// })

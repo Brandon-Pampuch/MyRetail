@@ -28,7 +28,6 @@ describe('POST /products', () => {
             })
             .then((res) => {
                 const body = res.body
-                console.log('product', body)
                 expect(body).to.contain.property('createdProduct')
                 done()
             })
