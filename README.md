@@ -44,7 +44,7 @@ Example post:
 	"currency_code": "USD"
 }
 ~~~
-* PUT https://my-retail9000.herokuapp.com/products/:id
+* PUT https://my-retail9000.herokuapp.com/products/{id}
 
 Where {id} is the product id number of an existing product
 
@@ -61,7 +61,7 @@ Example put:
     "value": 13.33
 }
 ~~~
-* DELETE https://my-retail9000.herokuapp.com/products/:id
+* DELETE https://my-retail9000.herokuapp.com/products/{id}
 
 Where {id} is the product id number of an existing product
 
