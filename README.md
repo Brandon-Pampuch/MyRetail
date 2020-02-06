@@ -20,7 +20,7 @@ myRetail is a rapidly growing company with HQ in Richmond, VA and over 200 store
 - - - -
 
 ## Hosted production instance of MyRetail ##
-### Heroku may need to way up. The first time you hit the server it may need a few seconds 🚀🚀🚀  ###
+### Heroku may need to way up. The first time the server is hit it may need a few seconds 🚀⏲🚀  ###
 
 * GET https://my-retail9000.herokuapp.com/products/{id}
 
@@ -65,6 +65,8 @@ Example put:
 
 Where {id} is the product id number of an existing product
 
+- - - -
+
 ## installing local development version of myRetail ##
 
 1. install node.js https://nodejs.org/en/
@@ -77,12 +79,12 @@ Where {id} is the product id number of an existing product
 
 for testing run `npm run test`
 to start the server run `npm run start:dev`
+- - - -
+## Seeded data ##
 
-## seeded data ##
+Both development and production have their own data store and test is running on a mock db unless told otherwise
 
-development and production enviornments have their own data store and test is running on a mock db unless told otherwise
-
-### seeds ###
+### example seeds ###
 ~~~
 {
   "id": 13860428,
@@ -103,6 +105,5 @@ development and production enviornments have their own data store and test is ru
 }
 ~~~
 
-### remote  production ###
 
 
