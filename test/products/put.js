@@ -29,20 +29,41 @@ describe('PUT /products', () => {
             .then(() => {
                 request(server.use(router)).put('/87654321')
                     .send({
-                        current_price: {
-                            value: 2.99,
-                            currency_code: "USD"
-                        }
+                        value: 2.99
                     })
                     .then((res) => {
                         request(server.use(router)).get('/87654321')
                         const body = res.body
                         expect(body).to.deep.nested.include({
-                            'updated_price.current_price.value': 2.99,
+                            'newPrice.current_price.value': 2.99,
                         });
                         done()
                     })
 
+            })
+            .catch((err) => done(err))
+    })
+    it('Fail, updating requires valid value', (done) => {
+        request(server.use(router)).post('/')
+            .send({
+                id: "87654325",
+                currency_code: "USD",
+                value: 1.99
+            })
+            .then(() => {
+                request(server.use(router)).put('/87654325')
+                    .send({
+                        values: 2.99
+                    })
+                    .then((res) => {
+                        request(server.use(router)).get('/87654325')
+                        const body = res.body
+                        expect(body).to.deep.nested.include({
+                            'message': 'include value as a valid number in request body'
+                        })
+
+                    })
+                done()
             })
             .catch((err) => done(err))
     })
