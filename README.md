@@ -71,14 +71,22 @@ Where {id} is the product id number of an existing product
 
 1. install node.js https://nodejs.org/en/
 
-2. clone repo 
+2. clone this repo 
 
 3. install npm dependencies `npm install`
 
 4. create `.env` file and add environment variables
 
-for testing run `npm run test`
-to start the server run `npm run start:dev`
+5. MongoDB Atlas should be whitelisted for all IP addresses
+
+6. for testing run `npm run test`
+
+7. to start the server run `npm run start:dev`
+
+8. local devevelopment endpoints are the same as the above Heroku endpoints except they are http://localhost:4000/products/
+or http://localhost:4000/products/{id}
+
+Where {id} is the product id number of an existing product
 - - - -
 ## Seeded data ##
 
