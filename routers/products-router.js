@@ -12,14 +12,14 @@ router.post("/", async (req, res) => {
             currency_code: Joi.string().required()
         })
         await schema.validateAsync(req.body);
-        const product = new Product({
+        const newProduct = new Product({
             _id: req.body.id,
             current_price: {
                 value: req.body.value,
                 currency_code: req.body.currency_code
             }
         })
-        const result = await product.save()
+        const result = await newProduct.save()
         res.status(201).json({
             message: "product was created",
             createdProduct: result
@@ -37,7 +37,8 @@ router.post("/", async (req, res) => {
             })
         } else {
             res.status(500).json({
-                error: (err)
+                error: (err),
+                message: "internal server error"
             })
         }
     }
@@ -52,8 +53,6 @@ router.get("/:id", async (req, res) => {
         if (foundProduct === null) {
             throw new Error("not found");
         }
-        console.log(foundProduct)
-        console.log(title)
         res.status(200).json({
             id: parseInt(foundProduct._id),
             name: title,
@@ -74,7 +73,8 @@ router.get("/:id", async (req, res) => {
 
         } else {
             res.status(500).json({
-                error: err
+                error: err,
+                message: "internal server error"
             })
 
         }
@@ -83,29 +83,48 @@ router.get("/:id", async (req, res) => {
 
 //PUT   /products/:id
 router.put("/:id", async (req, res) => {
-    const schema = Joi.object().keys({
-        id: Joi.string().required(),
-        value: Joi.number().required(),
-        currency_code: Joi.string().required()
-    })
-    await schema.validateAsync(req.body);
+    const id = req.params.id
     try {
-        const foundProduct = await Product.findByIdAndUpdate({ _id: req.params.id }, req.body)
-        if (!foundProduct) {
-            throw new Error();
+        const schema = Joi.object().keys({
+            value: Joi.number().required()
+        })
+        await schema.validateAsync(req.body);
+        const foundProduct = await Product.findById(id)
+        if (foundProduct === null) {
+            throw new Error("not found");
         }
-        updatedPrice = await Product.findOne({ _id: req.params.id })
-        res.status(200).json({
-            message: "product has been updated",
-            updated_price: updatedPrice
+        const updatedProduct = new Product({
+            _id: foundProduct._id,
+            current_price: {
+                value: req.body.value,
+                currency_code: foundProduct.current_price.currency_code
+            }
         })
+        const updatedPrice = await Product.findByIdAndUpdate(req.params.id, updatedProduct, { new: true })
+        res.status(201).json({
+            message: "product price was updated",
+            newPrice: updatedPrice
+        })
+
     } catch (err) {
-        res.status(404).json({
-            error: "no product found"
-        })
+        if (err.details[0].type === "any.required") {
+            res.status(400).json({
+                error: err,
+                message: "include value in request body"
+            })
+        } else if (err === "not found") {
+            res.status(404).json({
+                error: err,
+                message: "entry was not found in pricing db"
+            })
+        } else {
+            res.status(500).json({
+                error: err
+            })
+        }
     }
 })
 
-//Delete   /products/:id
+
 
 module.exports = router
