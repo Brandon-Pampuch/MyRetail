@@ -2,8 +2,12 @@ const mongoose = require('mongoose')
 const MongoMemoryServer = require('mongodb-memory-server').MongoMemoryServer
 const MONGO_URI = require("../config")
 
+console.log(process.env.NODE_ENV)
+console.log(MONGO_URI)
+
 const connectDB = async () => {
-    if (process.env.NODE_ENV = 'test') {
+    if (process.env.NODE_ENV === 'test') {
+
         const mongoServer = new MongoMemoryServer();
         const mongoUri = await mongoServer.getUri();
         return mongoose.connect(mongoUri, {
