@@ -85,7 +85,7 @@ router.get("/:id", async (req, res) => {
 })
 
 //PUT   /products/:id
-router.put("/:id", verifyToken, async (req, res) => {
+router.put("/:id", async (req, res) => {
     const id = req.params.id
     try {
         const schema = Joi.object().keys({
