@@ -2,6 +2,7 @@ const axios = require('axios')
 const Joi = require('@hapi/joi');
 const Product = require('../models/product')
 const router = require('express').Router();
+const verifyToken = require('../auth/verifyToken')
 
 // POST  /products
 router.post("/", async (req, res) => {
@@ -84,7 +85,7 @@ router.get("/:id", async (req, res) => {
 })
 
 //PUT   /products/:id
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyToken, async (req, res) => {
     const id = req.params.id
     try {
         const schema = Joi.object().keys({
@@ -121,7 +122,8 @@ router.put("/:id", async (req, res) => {
             })
         } else {
             res.status(500).json({
-                error: err
+                error: err,
+                message: "internal server error"
             })
         }
     }
@@ -147,7 +149,8 @@ router.delete('/:id', async (req, res) => {
             })
         } else {
             res.status(500).json({
-                error: err
+                error: err,
+                message: "internal server error"
             })
         }
     }
