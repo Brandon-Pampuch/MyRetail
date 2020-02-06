@@ -19,7 +19,8 @@ myRetail is a rapidly growing company with HQ in Richmond, VA and over 200 store
 
 - - - -
 
-## Hosted instance of MyRetail ##
+## Hosted production instance of MyRetail ##
+### Heroku may need to way up. The first time you hit the server it may need a few seconds 🚀🚀🚀  ###
 
 * GET https://my-retail9000.herokuapp.com/products/{id}
 
@@ -50,16 +51,58 @@ Where {id} is the product id number of an existing product
 Requires JSON body of the shape:
 ~~~
 }
-    value: Number,
+    value: Number
 }
 ~~~
 
 Example put:
 ~~~
 {
-    "value": 13.33,
+    "value": 13.33
+}
+~~~
+* DELETE https://my-retail9000.herokuapp.com/products/:id
+
+Where {id} is the product id number of an existing product
+
+## installing local development version of myRetail ##
+
+1. install node.js https://nodejs.org/en/
+
+2. clone repo 
+
+3. install npm dependencies `npm install`
+
+4. create `.env` file and add environment variables
+
+for testing run `npm run test`
+to start the server run `npm run start:dev`
+
+## seeded data ##
+
+development and production enviornments have their own data store and test is running on a mock db unless told otherwise
+
+### seeds ###
+~~~
+{
+  "id": 13860428,
+  "name": "The Big Lebowski (Blu-ray)",
+  "current_price": {
+    "value": 13.43,
+    "currency_code": "USD"
+  }
+}
+
+{
+  "id": 13860421,
+  "name": "Revolutionary Girl Utena: Apocalypse Saga Collection (DVD)",
+  "current_price": {
+    "value": 9.99,
+    "currency_code": "USD"
+  }
 }
 ~~~
 
+### remote  production ###
 
 
