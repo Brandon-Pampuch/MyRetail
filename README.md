@@ -28,44 +28,38 @@ Where {id} is the product id number of an existing product
 * POST https://my-retail9000.herokuapp.com/products
 
 Requires JSON body of the shape:
-
-{
+```
+}
     id: String,
     value: Number,
     currency_code: String,
 }
-
+```
 Example post:
-
+```
 {
 	"id":"13860421",
 	"value": 13.49,
 	"currency_code": "USD"
 }
-
+```
 * PUT https://my-retail9000.herokuapp.com/products/:id
 
 Where {id} is the product id number of an existing product
 
 Requires JSON body of the shape:
-
-{
-    current_price: {
-        value: Number,
-        currency_code:String
-        }
+```
 }
-
+    value: Number,
+}
+```
 
 Example put:
-
+ ```
 {
-	"current_price": {
-		"value": 13.33,
-		"currency_code": "USD"
-	}
+    "value": 13.33,
 }
-
+```
 
 
 
