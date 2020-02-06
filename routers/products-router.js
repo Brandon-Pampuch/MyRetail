@@ -25,15 +25,16 @@ router.post("/", async (req, res) => {
             createdProduct: result
         })
     } catch (err) {
-        if (err.details[0].type === "any.required") {
-            res.status(400).json({
-                error: err,
-                message: "include id, value and currency code in request body"
-            })
-        } else if (err.code === 11000) {
+        if (err.code === 11000) {
             res.status(400).json({
                 error: err,
                 message: "duplicate entry use unique id"
+            })
+
+        } else if (err.details) {
+            res.status(400).json({
+                error: err,
+                message: "include id, value and currency code in request body"
             })
         } else {
             res.status(500).json({
@@ -43,6 +44,7 @@ router.post("/", async (req, res) => {
         }
     }
 })
+
 // GET   products/:id
 router.get("/:id", async (req, res) => {
     try {
@@ -105,17 +107,17 @@ router.put("/:id", async (req, res) => {
             message: "product price was updated",
             newPrice: updatedPrice
         })
-
     } catch (err) {
-        if (err.details[0].type === "any.required") {
-            res.status(400).json({
-                error: err,
-                message: "include value in request body"
-            })
-        } else if (err === "not found") {
+        if (err.message === "not found") {
             res.status(404).json({
                 error: err,
                 message: "entry was not found in pricing db"
+            })
+
+        } else if (err.details) {
+            res.status(400).json({
+                error: err,
+                message: "include value as a valid number in request body"
             })
         } else {
             res.status(500).json({
@@ -125,6 +127,30 @@ router.put("/:id", async (req, res) => {
     }
 })
 
-
+//DELETE /products/:id
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id
+    try {
+        const foundProduct = await Product.findById(id)
+        if (foundProduct === null) {
+            throw new Error("not found");
+        }
+        await Product.findByIdAndRemove(id)
+        res.status(200).json({
+            message: "product price has been deleted"
+        })
+    } catch (err) {
+        if (err.message === "not found") {
+            res.status(404).json({
+                error: err,
+                message: "product not found for deletion"
+            })
+        } else {
+            res.status(500).json({
+                error: err
+            })
+        }
+    }
+})
 
 module.exports = router
