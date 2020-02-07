@@ -2,6 +2,9 @@ const axios = require('axios')
 const Joi = require('@hapi/joi');
 const Product = require('../models/product')
 const router = require('express').Router();
+
+
+//   auth middleware
 const verifyToken = require('../auth/verifyToken')
 
 // POST  /products
@@ -31,7 +34,6 @@ router.post("/", async (req, res) => {
                 error: err,
                 message: "duplicate entry use unique id"
             })
-
         } else if (err.details) {
             res.status(400).json({
                 error: err,
@@ -66,7 +68,6 @@ router.get("/:id", async (req, res) => {
             res.status(404).json({
                 error: err,
                 message: "entry not found in pricing db"
-
             })
         } else if (err.name === "Error") {
             res.status(404).json({

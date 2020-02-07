@@ -113,5 +113,23 @@ Both development and production have their own data store and test is running on
 }
 ~~~
 
+- - - -
+
+## Authentication ##
+
+JWT Webtoken available but auth middleware is not in place on any route. `VeryifyToken` can be placed in any route to secure it. Due to testing concerns and demonstrating other functionality of the api I chose to leave them off.
+
+~~~
+router.post("/", async, verifyToken, (req, res)=>{
+  // secure route
+})
+~~~
+
+To register a new user 
+
+http://localhost:4000/auth/register
+
+
+http://localhost:4000/auth/login
 
 
