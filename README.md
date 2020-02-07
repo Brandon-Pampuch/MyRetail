@@ -19,7 +19,7 @@ myRetail is a rapidly growing company with HQ in Richmond, VA and over 200 store
 
 - - - -
 
-## Hosted production instance of MyRetail ##
+## Hosted production instance of myRetail ##
 ### Heroku may need to way up. The first time the server is hit it may need a few seconds 🚀⏲🚀  ###
 
 * GET https://my-retail9000.herokuapp.com/products/{id}
@@ -134,7 +134,7 @@ Both development and production have their own data store and test is running on
 JWT Webtoken available but auth middleware is not in place on any route. `veryifyToken` can be placed in any route to secure it. Due to testing concerns and demonstrating other functionality of the API I chose to leave it off
 
 ~~~
-router.post("/", async, __verifyToken__, (req, res)=>{
+router.post("/", async, verifyToken, (req, res)=>{
   // secure route
 })
 ~~~
