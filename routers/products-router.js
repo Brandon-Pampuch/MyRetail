@@ -50,8 +50,8 @@ router.post("/", async (req, res) => {
 
 // GET   products/:id
 router.get("/:id", async (req, res) => {
+    const id = req.params.id
     try {
-        const id = req.params.id
         const apiProduct = await axios.get(`https://redsky.target.com/v2/pdp/tcin/${id}?excludes=taxonomy,price,promotion,bulk_ship,rating_and_review_reviews,rating_and_review_statistics,question_answer_statistics`)
         const title = apiProduct.data.product.item.product_description.title;
         const foundProduct = await Product.findById(id)
@@ -74,7 +74,6 @@ router.get("/:id", async (req, res) => {
                 error: err,
                 message: "entry not found in target api"
             })
-
         } else {
             res.status(500).json({
                 error: err,
