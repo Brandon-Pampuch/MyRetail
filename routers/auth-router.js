@@ -8,13 +8,11 @@ const bcrypt = require('bcryptjs');
 //   middleware
 router.use(bodyParser.urlencoded({ extended: false }));
 
-
 const secret = process.env.SECRET
 
+//POST   auth/register
 router.post('/register', (req, res) => {
-
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
-
     User.create({
         email: req.body.email,
         password: hashedPassword
@@ -29,8 +27,7 @@ router.post('/register', (req, res) => {
         });
 });
 
-
-
+//POST   auth/login
 router.post('/login', async (req, res) => {
 
     User.findOne({ email: req.body.email }, (err, user) => {
@@ -43,7 +40,6 @@ router.post('/login', async (req, res) => {
         const token = jwt.sign({ id: user._id }, secret, {
             expiresIn: 86400
         });
-
         res.status(200).send({ auth: true, token: token });
     });
 

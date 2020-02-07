@@ -24,7 +24,7 @@ myRetail is a rapidly growing company with HQ in Richmond, VA and over 200 store
 
 * GET https://my-retail9000.herokuapp.com/products/{id}
 
-Where {id} is the product id number of an existing product
+  Where {id} is the product id number of an existing product
 
 example input:
 ~~~
@@ -62,7 +62,7 @@ Example post:
 ~~~
 * PUT https://my-retail9000.herokuapp.com/products/{id}
 
-Where {id} is the product id number of an existing product
+  Where {id} is the product id number of an existing product
 
 Requires JSON body of the shape:
 ~~~
@@ -79,11 +79,11 @@ Example put:
 ~~~
 * DELETE https://my-retail9000.herokuapp.com/products/{id}
 
-Where {id} is the product id number of an existing product
+  Where {id} is the product id number of an existing product
 
 - - - -
 
-## installing local development version of myRetail ##
+## Installing local development version of myRetail ##
 
 1. install node.js https://nodejs.org/en/
 
@@ -91,7 +91,7 @@ Where {id} is the product id number of an existing product
 
 3. install npm dependencies `npm install`
 
-4. create `.env` file and add environment variables
+4. create `.env` file and add environment variables (external from this repo)
 
 5. MongoDB Atlas should be whitelisted for all IP addresses
 
@@ -163,7 +163,7 @@ place the string on request headers of any protected route using verifyToken mid
 
 ~~~
 header            token
-x-access-token : `token string`
+x-access-token :  token string
 ~~~
 
 Thank you for taking a look!

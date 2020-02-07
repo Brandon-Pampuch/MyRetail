@@ -4,7 +4,7 @@ const Product = require('../models/product')
 const router = require('express').Router();
 
 
-//   auth middleware
+//   auth middleware not being used
 const verifyToken = require('../auth/verifyToken')
 
 // POST  /products
@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
     try {
         const schema = Joi.object().keys({
             id: Joi.string().required(),
-            value: Joi.number().required(),
+            value: Joi.number().positive().precision(2).required(),
             currency_code: Joi.string().required()
         })
         await schema.validateAsync(req.body);
@@ -90,7 +90,7 @@ router.put("/:id", async (req, res) => {
     const id = req.params.id
     try {
         const schema = Joi.object().keys({
-            value: Joi.number().required()
+            value: Joi.number().positive().precision(2).required()
         })
         await schema.validateAsync(req.body);
         const foundProduct = await Product.findById(id)
@@ -115,7 +115,6 @@ router.put("/:id", async (req, res) => {
                 error: err,
                 message: "entry was not found in pricing db"
             })
-
         } else if (err.details) {
             res.status(400).json({
                 error: err,
