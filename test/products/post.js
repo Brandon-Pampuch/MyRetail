@@ -19,20 +19,30 @@ describe('POST /products', () => {
             .catch((err) => done(err))
 
     })
-    it('OK, creating product works', (done) => {
+    it('OK, posting price to db works', (done) => {
         request(server.use(router)).post('/')
             .send({
-                id: "87654321",
+                id: "13860428",
                 currency_code: "USD",
                 value: 1.99
             })
             .then((res) => {
                 const body = res.body
                 expect(body).to.contain.property('createdProduct')
+                expect(body).to.deep.nested.include({
+                    'createdProduct._id': '13860428'
+                });
+                expect(body).to.deep.nested.include({
+                    'createdProduct.current_price.value': 1.99,
+                });
+                expect(body).to.deep.nested.include({
+                    'createdProduct.current_price.currency_code': "USD",
+                });
                 done()
             })
             .catch((err) => done(err))
     })
+
 
     it('Fail, creating product requires id', (done) => {
         request(server.use(router)).post('/')

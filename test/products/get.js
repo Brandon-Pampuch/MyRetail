@@ -10,6 +10,12 @@ const DB = require('../../models')
 describe('GET /products', () => {
     before((done) => {
         DB.connectDB()
+        request(server.use(router)).post('/')
+            .send({
+                id: "13860428",
+                currency_code: "USD",
+                value: 1.99
+            })
             .then(() => done())
             .catch((err) => done(err))
     })
@@ -20,25 +26,21 @@ describe('GET /products', () => {
 
     })
 
-    it('OK, getting product by id works', (done) => {
-        request(server.use(router)).post('/')
-            .send({
-                id: "87654321",
-                currency_code: "USD",
-                value: 1.99
-            })
+    it('OK, getting both api data and db data works', (done) => {
+        request(server.use(router)).get('/13860428')
             .then((res) => {
-                request(server.use(router)).get('/87654321')
                 const body = res.body
-                expect(body).to.contain.property('createdProduct')
                 expect(body).to.deep.nested.include({
-                    'createdProduct._id': '87654321'
+                    'current_price.currency_code': 'USD',
                 });
                 expect(body).to.deep.nested.include({
-                    'createdProduct.current_price.value': 1.99,
+                    'current_price.value': 1.99,
                 });
-                expect(body).to.deep.nested.include({
-                    'createdProduct.current_price.currency_code': "USD",
+                expect(body).to.include({
+                    'name': 'The Big Lebowski (Blu-ray)',
+                });
+                expect(body).to.include({
+                    'id': 13860428,
                 });
                 done()
             })
@@ -48,7 +50,7 @@ describe('GET /products', () => {
     it('FAIL, getting product does not work with wrong id', (done) => {
         request(server.use(router)).post('/')
             .send({
-                id: "87654321",
+                id: "13860428",
                 currency_code: "USD",
                 value: 1.99
             })
