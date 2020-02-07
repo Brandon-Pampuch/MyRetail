@@ -20,7 +20,7 @@ myRetail is a rapidly growing company with HQ in Richmond, VA and over 200 store
 - - - -
 
 ## Hosted production instance of myRetail ##
-### Heroku may need to way up. The first time the server is hit it may need a few seconds 🚀⏲🚀  ###
+#### Heroku may need to warm up. The first time the server is hit it may need a few seconds 🚀⏲🚀  ####
 
 * GET https://my-retail9000.herokuapp.com/products/{id}
 
