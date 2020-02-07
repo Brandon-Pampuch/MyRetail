@@ -26,6 +26,22 @@ myRetail is a rapidly growing company with HQ in Richmond, VA and over 200 store
 
 Where {id} is the product id number of an existing product
 
+example input:
+~~~
+https://my-retail9000.herokuapp.com/products/13860428
+~~~
+example output:
+~~~
+{
+  "id": 13860428,
+  "name": "The Big Lebowski (Blu-ray)",
+  "current_price": {
+    "value": 13.49,
+    "currency_code": "USD"
+  }
+}
+~~~
+
 * POST https://my-retail9000.herokuapp.com/products
 
 Requires JSON body of the shape:
@@ -92,11 +108,10 @@ Where {id} is the product id number of an existing product
 
 Both development and production have their own data store and test is running on a mock db unless told otherwise
 
-### example seeds ###
+### Example Seeds ###
 ~~~
 {
-  "id": 13860428,
-  "name": "The Big Lebowski (Blu-ray)",
+  "id": "13860428",
   "current_price": {
     "value": 13.43,
     "currency_code": "USD"
@@ -104,8 +119,7 @@ Both development and production have their own data store and test is running on
 }
 
 {
-  "id": 13860421,
-  "name": "Revolutionary Girl Utena: Apocalypse Saga Collection (DVD)",
+  "id": "13860421",
   "current_price": {
     "value": 9.99,
     "currency_code": "USD"
@@ -115,21 +129,43 @@ Both development and production have their own data store and test is running on
 
 - - - -
 
-## Authentication ##
+# Authentication #
 
-JWT Webtoken available but auth middleware is not in place on any route. `VeryifyToken` can be placed in any route to secure it. Due to testing concerns and demonstrating other functionality of the api I chose to leave them off.
+JWT Webtoken available but auth middleware is not in place on any route. `veryifyToken` can be placed in any route to secure it. Due to testing concerns and demonstrating other functionality of the API I chose to leave it off
 
 ~~~
-router.post("/", async, verifyToken, (req, res)=>{
+router.post("/", async, __verifyToken__, (req, res)=>{
   // secure route
 })
 ~~~
 
-To register a new user 
+To register a new user at
 
-http://localhost:4000/auth/register
+http://localhost:4000/auth/register or https://my-retail9000.herokuapp.com/auth/login
 
+using postman enter form x-www-form-urlencoded email and password
 
-http://localhost:4000/auth/login
+example user
+~~~
+email : user@northpole.com,
+password : bear
+~~~
+
+login with registered user at
+
+http://localhost:4000/auth/login or https://my-retail9000.herokuapp.com/auth/login
+
+using the same name and password
+
+login will return a __token string__
+
+place the string on request headers of any protected route using verifyToken middleware 
+
+~~~
+header            token
+x-access-token : `token string`
+~~~
+
+Thank you for taking a look!
 
 
